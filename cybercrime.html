@@ -278,22 +278,48 @@
   </footer>
 
   <script>
-    const likeBtn = document.getElementById('likeBtn');
-    const likeCount = document.getElementById('likeCount');
-    let likes = localStorage.getItem('likes') || 0;
+  // Select the like button and view count elements
+  const likeBtn = document.getElementById('likeBtn');
+  const likeCount = document.getElementById('likeCount');
+  const viewCount = document.getElementById('viewCount');
+
+  // Set the initial values you want for likes and views
+  const initialLikes = 08;  // Set your desired initial like count
+  const initialViews = 29;  // Set your desired initial view count
+
+  // Get like and view counts from localStorage or use initial values if not set
+  let likes = localStorage.getItem('likes');
+  let views = localStorage.getItem('views');
+
+  // If likes or views are not set in localStorage, initialize them to the starting number
+  if (likes === null) {
+    likes = initialLikes;
+    localStorage.setItem('likes', likes);
+  }
+  if (views === null) {
+    views = initialViews;
+    localStorage.setItem('views', views);
+  }
+
+  // Display the initial like and view counts
+  likeCount.textContent = likes;
+  viewCount.textContent = views;
+
+  // When the like button is clicked, increment the like count
+  likeBtn.addEventListener('click', () => {
+    likes++;
+    localStorage.setItem('likes', likes);
     likeCount.textContent = likes;
+  });
 
-    likeBtn.addEventListener('click', () => {
-      likes++;
-      localStorage.setItem('likes', likes);
-      likeCount.textContent = likes;
-    });
-
-    const viewCount = document.getElementById('viewCount');
-    let views = localStorage.getItem('views') || 0;
+  // Increment the view count only once per device session
+  if (!localStorage.getItem('viewed')) {
     views++;
     localStorage.setItem('views', views);
+    localStorage.setItem('viewed', 'true');  // Mark that the page has been viewed
     viewCount.textContent = views;
-  </script>
+  }
+</script>
+
 </body>
 </html>
